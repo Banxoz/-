@@ -1,0 +1,84 @@
+//Задание а
+#include <iostream>
+#include <Windows.h>
+using namespace std;
+int main()
+{
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    const int nemei = 8;
+    int mass[nemei];
+    cout << "Введите элементы массива:";
+    for (int i = 0; i < nemei; i++)
+    {
+        cin >> mass[i];
+    }
+    for (int j = 0; j < nemei / 2; ++j) {
+        int temp = mass[j];
+        mass[j] = mass[nemei / 2 + j];
+        mass[nemei / 2 + j] = temp;
+    }
+    cout << "Новый массив: "<<endl;
+    for (int g = 0; g < nemei; g++)
+    {
+        cout << mass[g] << endl;
+    }
+    return 0;
+}
+//Задание б
+#include <iostream>
+#include <Windows.h>
+using namespace std;
+int main()
+{
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    const int nemei = 8;
+    int mass[nemei];
+    cout << "Введите элементы массива:";
+    for (int i = 0; i < nemei; i++)
+    {
+        cin >> mass[i];
+    }
+    for (int i = 0; i < nemei; i += 2) {
+        int temp = mass[i];
+        mass[i] = mass[i + 1];
+        mass[i + 1] = temp;
+    }
+        cout << "Новый массив: ";
+        for (int g = 0; g<nemei;g++)
+        {
+            cout << mass[g] << " ";
+        }
+        return 0;
+}
+
+//Задание c
+#include <iostream>
+#include <Windows.h>
+using namespace std;
+int main()
+{
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    const int nemei = 8;
+    int mass[nemei];
+    cout << "Введите элементы массива:";
+    for (int i = 0; i < nemei; i++)
+    {
+        cin >> mass[i];
+    }
+
+    for (int i = 0; i < nemei / 2; ++i) {
+        int temp = mass[i];
+        mass[i] = mass[nemei - 1 - i];
+        mass[nemei - 1 - i] = temp;
+    }
+        cout << "Новый массив: ";
+        for (int g = 0; g<nemei;g++)
+        {
+            cout << mass[g] << " ";
+        }
+        return 0;
+}
+
