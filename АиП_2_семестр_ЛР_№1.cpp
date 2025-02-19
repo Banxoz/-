@@ -1,73 +1,79 @@
-﻿#include <iostream>
-#include <string>
-#include <Windows.h> 
+#include <iostream>
+#include <Windows.h>
 using namespace std;
 struct BOOK {
-    string author;
-    string title;
-    int quantity;
-    double price;
+    char author[50];
+    char title[50];
+    int quanty;
+    float price;
 };
-// Расчета скидки
-double discount(double totalCost, int quantity) {
-    if (quantity >= 5) {
-        return totalCost * 0.90; //10%
+// скидка
+float discount(float price, int quanty) {
+    float toprice = price * quanty;
+    if (quanty >= 2 && quanty <= 4) {
+        toprice *= 0.98; // 2% 
+    } else if (quanty >= 5) {
+        toprice *= 0.90; // 10% 
     }
-    else if (quantity >= 2) {
-        return totalCost * 0.98; //2%
-    }
-    return totalCost; // Без
+    return toprice;
 }
 int main() {
     SetConsoleCP(1251);
-    SetConsoleOutputCP(1251); 
+    SetConsoleOutputCP(1251);
     BOOK books[5];
-
-    // Ввод данных о книгах
-    for (int i = 0; i < 5; ++i) {
-        cout << "Книга " << i + 1 << ":"<<endl;
-        cout << "  Автор: ";
-        getline(cin, books[i].author);
-        cout << "  Название: ";
-        getline(cin, books[i].title);
-        cout << "  Количество: ";
-        cin >> books[i].quantity;
-        cout << "  Цена: ";
-        cin >> books[i].price;
+    // Ввод данных
+    for (int i = 0; i < 5; i++) {
+        cout << "Введите данные о книге " << (i + 1) << endl;
+        cout << "Автор: ";
+        cin.getline(books[i].author, 50); 
+        cout << "Название: ";
+        cin.getline(books[i].title, 50); 
+        cout << "Количество в наличии: ";
+        cin >> books[i].quanty; 
+        cout << "Цена: ";
+        cin >> books[i].price; 
         cin.ignore();
     }
-
-    // Поиск книги
-    string searchTitle;
-    int searchquantity;
-    cout << "\nВведите название книги: ";
-    getline(cin, searchTitle);
-    cout << "Введите количество: ";
-    cin >> searchquantity;
-
+    // Запрос инфы
+    char search[50];
+    int buy;
+    cout << "Введите название искомой книги: ";
+    cin.getline(search, 50);
+    cout << "Введите количество книг, которое хотите приобрести: ";
+    cin >> buy; 
+    // Поиск
     bool flag = false;
-    for (const auto& book : books) {
-        if (book.title == searchTitle) {
-            flag = true;
-            if (book.quantity >= searchquantity) {
-                double totalCost = book.price * searchquantity;
-                double finalCost = discount(totalCost, searchquantity); // расчет скидки
-
-                cout << "Книга найдена:"<<endl;
-                cout << "  Автор: " << book.author <<endl;
-                cout << "  Название: " << book.title << endl;
-                cout << "  Стоимость: " << finalCost << " руб." << endl;
+    for (int i = 0; i < 5; i++) {
+        bool titles = true;
+        for (int j = 0; j < 50; j++) {
+            if (books[i].title[j] != search[j]) {
+                titles = false;
+                break;
             }
-            else {
-                cout << "Недостаточно книг в наличии.\n";
+            if (books[i].title[j] == '\0' && search[j] == '\0') {
+                break; 
+            }
+        }
+
+        if (titles) {
+            flag = true;
+            if (books[i].quanty >= buy) {
+                cout << "Книга найдена:"<<endl;
+                cout << "Автор: " << books[i].author << endl;
+                cout << "Название: " << books[i].title << endl;
+                cout << "Количество в наличии: " << books[i].quanty << endl;
+                cout << "Цена: " << books[i].price << endl;
+ 
+                float nemei = discount(books[i].price, buy);
+                cout << "Общая стоимость покупки: " << nemei << endl;
+            } else {
+                cout << "Извините, недостаточно книг в наличии."<<endl;
             }
             break;
         }
     }
-
-    if (flag == false) {
-        cout << "Книга с названием \"" << searchTitle << "\" не найдена.\n";
+    if (flag==false) {
+        cout << "Книга с таким названием не найдена."<<endl;
     }
-
     return 0;
 }
