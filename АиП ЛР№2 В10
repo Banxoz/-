@@ -1,4 +1,4 @@
-//Задание а
+#include <random>
 #include <iostream>
 #include <Windows.h>
 using namespace std;
@@ -6,79 +6,50 @@ int main()
 {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
+    default_random_engine generator;
+    uniform_int_distribution<int>distribution(1, 9);
+    int dice = distribution(generator);
     const int nemei = 8;
+    int A[nemei];
+    int B[nemei];
+    int C[nemei];
     int mass[nemei];
-    cout << "Введите элементы массива:";
+    cout << "Cлучайный массив: "<<endl;
     for (int i = 0; i < nemei; i++)
     {
-        cin >> mass[i];
+        mass[i] = dice;
     }
-    for (int j = 0; j < nemei / 2; ++j) {
-        int temp = mass[j];
-        mass[j] = mass[nemei / 2 + j];
-        mass[nemei / 2 + j] = temp;
-    }
-    cout << "Новый массив: "<<endl;
     for (int g = 0; g < nemei; g++)
     {
-        cout << mass[g] << endl;
+        A[g] = mass[g];
+        B[g] = mass[g];
+        C[g] = mass[g];
     }
-    return 0;
-}
-//Задание б
-#include <iostream>
-#include <Windows.h>
-using namespace std;
-int main()
-{
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
-    const int nemei = 8;
-    int mass[nemei];
-    cout << "Введите элементы массива:";
-    for (int i = 0; i < nemei; i++)
-    {
-        cin >> mass[i];
+    //Задание А
+    for (int j = 0; j < nemei / 2; ++j) {
+        int temp = A[j];
+        A[j] = A[nemei / 2 + j];
+        A[nemei / 2 + j] = temp;
     }
+    //Задание Б
     for (int i = 0; i < nemei; i += 2) {
-        int temp = mass[i];
-        mass[i] = mass[i + 1];
-        mass[i + 1] = temp;
+        int temp = B[i];
+        B[i] = B[i + 1];
+        B[i + 1] = temp;
     }
-        cout << "Новый массив: ";
-        for (int g = 0; g<nemei;g++)
-        {
-            cout << mass[g] << " ";
-        }
-        return 0;
-}
-
-//Задание c
-#include <iostream>
-#include <Windows.h>
-using namespace std;
-int main()
-{
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
-    const int nemei = 8;
-    int mass[nemei];
-    cout << "Введите элементы массива:";
-    for (int i = 0; i < nemei; i++)
-    {
-        cin >> mass[i];
-    }
-
+    //Задание С
     for (int i = 0; i < nemei / 2; ++i) {
         int temp = mass[i];
         mass[i] = mass[nemei - 1 - i];
         mass[nemei - 1 - i] = temp;
     }
-        cout << "Новый массив: ";
-        for (int g = 0; g<nemei;g++)
-        {
-            cout << mass[g] << " ";
-        }
-        return 0;
+    cout << "Новый массив: ";
+    for (int g = 0; g < nemei;g++)
+    {
+        cout << mass[g] << " ";
+        cout << A[g] << ' ';
+        cout << B[g] << ' ';
+        cout << C[g] << ' ';
+    }
+    return 0;
 }
-
