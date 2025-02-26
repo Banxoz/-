@@ -6,24 +6,27 @@ int main()
 {
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
-    default_random_engine generator;
-    uniform_int_distribution<int>distribution(1, 9);
-    int dice = distribution(generator);
-    const int nemei = 8;
+    const int nemei = 10;
     int A[nemei];
     int B[nemei];
     int C[nemei];
     int mass[nemei];
-    cout << "Cлучайный массив: "<<endl;
-    for (int i = 0; i < nemei; i++)
-    {
-        mass[i] = dice;
+    cout << "Cлучайный массив: " << endl;
+    // генератор случайных чисел
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(1, 100);
+
+    // Заполнение mass
+    for (int i = 0; i < nemei; ++i) {
+        mass[i] = dis(gen);
+        cout << mass[i] << " ";
     }
-    for (int g = 0; g < nemei; g++)
-    {
-        A[g] = mass[g];
-        B[g] = mass[g];
-        C[g] = mass[g];
+    cout << endl;
+    for (int i = 0; i < nemei; ++i) {
+        A[i] = mass[i];
+        B[i] = mass[i];
+        C[i] = mass[i];
     }
     //Задание А
     for (int j = 0; j < nemei / 2; ++j) {
@@ -39,17 +42,32 @@ int main()
     }
     //Задание С
     for (int i = 0; i < nemei / 2; ++i) {
-        int temp = mass[i];
-        mass[i] = mass[nemei - 1 - i];
-        mass[nemei - 1 - i] = temp;
+        int temp = C[i];
+        C[i] = C[nemei - 1 - i];
+        C[nemei - 1 - i] = temp;
     }
-    cout << "Новый массив: ";
-    for (int g = 0; g < nemei;g++)
-    {
+    cout << "Массив A: ";
+    for (int g = 0; g < nemei; g++) {
+        cout << A[g] << " ";
+    }
+    cout << endl;
+
+    cout << "Массив B: ";
+    for (int g = 0; g < nemei; g++) {
+        cout << B[g] << " ";
+    }
+    cout << endl;
+
+    cout << "Массив C: ";
+    for (int g = 0; g < nemei; g++) {
+        cout << C[g] << " ";
+    }
+    cout << endl;
+    cout << "Повторный вывод массива mass: ";
+    for (int g = 0; g < nemei; g++) {
         cout << mass[g] << " ";
-        cout << A[g] << ' ';
-        cout << B[g] << ' ';
-        cout << C[g] << ' ';
     }
+    cout << endl;
     return 0;
+
 }
