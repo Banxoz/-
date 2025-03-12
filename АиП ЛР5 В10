@@ -1,0 +1,26 @@
+//Задание А
+#include <Windows.h>//Лабораторная 5 В10
+#include <iostream>
+using namespace std;
+int main()
+{
+	SetConsoleCP(1251);
+	SetConsoleOutputCP(1251);
+	const int nemei = 11;
+	char mass[nemei];
+	char *indic = mass;
+	cout << "Введите значения массива: ";
+	cin.getline(indic, nemei);
+	for (int i = 0; i < nemei; i++) {
+		if (indic[i] == ' ') {
+			indic[i] = '_';
+		}
+	}
+	
+	for (int i = 0; i < nemei; i++)
+	{
+		cout << indic[i]<<' ';
+	}
+	return 0;
+}
+//Задание Б
