@@ -24,3 +24,61 @@ int main()
 	return 0;
 }
 //Задание Б
+#include <Windows.h>
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    const int nemei = 10;
+    int mass[nemei];
+    int* indic = mass;
+    cout << "Введите значения массива: ";
+    for (int i = 0; i < nemei; i++) {
+        cin >> indic[i];
+    }
+    //Меняем половины
+    for (int i = 0; i < nemei / 2; i++) {
+        int temp = indic[i];
+        indic[i] = indic[nemei / 2 + i];
+        indic[nemei / 2 + i] = temp;
+    }
+
+    cout << "1: ";
+    for (int i = 0; i < nemei; i++) {
+        cout << indic[i] << ' ';
+    }
+    cout << endl;
+
+    // Меняем соседние элементы
+    for (int i = 0; i < nemei; i += 2) {
+        if (i + 1 < nemei) {
+            int temp = indic[i];
+            indic[i] = indic[i + 1];
+            indic[i + 1] = temp;
+        }
+    }
+
+    cout << "2: ";
+    for (int i = 0; i < nemei; i++) {
+        cout << indic[i] << ' ';
+    }
+    cout << endl;
+
+    // Обратный порядок
+    for (int i = 0; i < nemei / 2; i++) {
+        int temp = indic[i];
+        indic[i] = indic[nemei - 1 - i];
+        indic[nemei - 1 - i] = temp;
+    }
+
+    cout << "3: ";
+    for (int i = 0; i < nemei; i++) {
+        cout << indic[i] << ' ';
+    }
+    cout << endl;
+
+    return 0;
+}
