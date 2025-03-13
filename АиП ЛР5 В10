@@ -2,24 +2,29 @@
 #include <Windows.h>//Лабораторная 5 В10
 #include <iostream>
 using namespace std;
+void vrap(char* str, int size)
+{
+	for (int i =0 ;i < size;i++)
+	{
+		if (*(str+i) == ' ')
+		{
+			*(str+i) = '_';
+		}
+	}
+}
 int main()
 {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	const int nemei = 11;
 	char mass[nemei];
-	char *indic = mass;
+	char* indic = mass;
 	cout << "Введите значения массива: ";
 	cin.getline(indic, nemei);
-	for (int i = 0; i < nemei; i++) {
-		if (indic[i] == ' ') {
-			indic[i] = '_';
-		}
-	}
-	
+	vrap(indic, nemei);
 	for (int i = 0; i < nemei; i++)
 	{
-		cout << indic[i]<<' ';
+		cout << *(indic+i) << ' ';
 	}
 	return 0;
 }
@@ -34,51 +39,58 @@ int main()
     SetConsoleOutputCP(1251);
     const int nemei = 10;
     int mass[nemei];
+    int mas[nemei];
+    int* indi = mas;
     int* indic = mass;
+    int ma[nemei];
+    int* ind=ma;
     cout << "Введите значения массива: ";
     for (int i = 0; i < nemei; i++) {
-        cin >> indic[i];
+        cin >> *(indic + i);
+        *(indi+i) = *(indic + i);
+        *(ind + i) = *(indic + i);
     }
     //Меняем половины
     for (int i = 0; i < nemei / 2; i++) {
-        int temp = indic[i];
-        indic[i] = indic[nemei / 2 + i];
-        indic[nemei / 2 + i] = temp;
+        int temp = *(indi + i);
+        *(indi + i) = *(indi + (nemei / 2 + i));
+        *(indi + (nemei / 2 + i)) = temp;
     }
 
     cout << "1: ";
     for (int i = 0; i < nemei; i++) {
-        cout << indic[i] << ' ';
+        cout << *(indi + i) << ' ';
     }
     cout << endl;
+
 
     // Меняем соседние элементы
     for (int i = 0; i < nemei; i += 2) {
         if (i + 1 < nemei) {
-            int temp = indic[i];
-            indic[i] = indic[i + 1];
-            indic[i + 1] = temp;
+            int temp = *(ind + i);
+            *(ind + i) = *(ind + i + 1);
+            *(ind + i + 1) = temp;
         }
     }
 
     cout << "2: ";
     for (int i = 0; i < nemei; i++) {
-        cout << indic[i] << ' ';
+        cout << *(ind + i) << ' ';
     }
     cout << endl;
 
     // Обратный порядок
     for (int i = 0; i < nemei / 2; i++) {
-        int temp = indic[i];
-        indic[i] = indic[nemei - 1 - i];
-        indic[nemei - 1 - i] = temp;
+        int temp = *(ind+i);
+        *(ind+i) = *(ind+(nemei - 1 - i));
+        *(ind+(nemei - 1 - i)) = temp;
     }
 
     cout << "3: ";
     for (int i = 0; i < nemei; i++) {
-        cout << indic[i] << ' ';
+        cout << *(ind + i) << ' ';
     }
     cout << endl;
-
     return 0;
 }
+
