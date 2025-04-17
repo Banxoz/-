@@ -1,52 +1,38 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
-
 using namespace std;
-
-// Структура узла списка
 struct Node {
     int data;
     Node* next;
 };
 
-// Функция для объединения двух списков
 static Node* mergeLists(Node* list1, Node* list2) {
-    Node* merged = list1; // Начинаем с первого списка
+    Node* merged = list1;
     Node* current = merged;
 
-    // Переходим к последнему узлу первого списка
     while (current->next != 0) {
         current = current->next;
     }
-
-    // Присоединяем второй список к концу первого
     current->next = list2;
-
-    return merged; // Возвращаем объединённый список
+    return merged;
 }
 
 int main() {
-    srand(time(0)); // Инициализация генератора случайных чисел
+    srand(time(0));
     const int SIZE = 5;
-
-    // Создаём первый список
     Node* list1 = new Node{ rand() % 100, 0 };
     Node* current = list1;
     for (int i = 1; i < SIZE; ++i) {
         current->next = new Node{ rand() % 100, 0 };
         current = current->next;
     }
-
-    // Создаём второй список
     Node* list2 = new Node{ rand() % 100, 0 };
     current = list2;
     for (int i = 1; i < SIZE; ++i) {
         current->next = new Node{ rand() % 100, 0 };
         current = current->next;
     }
-
-    // Выводим списки
     cout << "List 1: ";
     current = list1;
     while (current != 0) {
@@ -63,10 +49,10 @@ int main() {
     }
     cout << endl;
 
-    // Объединяем списки с помощью функции mergeLists
+ 
     Node* merged = mergeLists(list1, list2);
 
-    // Выводим объединённый список
+ 
     cout << "Merged list: ";
     current = merged;
     while (current != 0) {
@@ -74,8 +60,6 @@ int main() {
         current = current->next;
     }
     cout << endl;
-
-    // Освобождаем память (mergedList теперь содержит оба списка)
     current = merged;
     while (current != 0) {
         Node* next = current->next;
