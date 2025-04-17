@@ -12,14 +12,11 @@ struct Node {
 void swapNodes(Node** head, int x, int y) {
     if (x == y) return;
 
-    // Поиск узла X
     Node* prevX = nullptr, * currX = *head;
     while (currX && currX->data != x) {
         prevX = currX;
         currX = currX->next;
     }
-
-    // Поиск узла Y
     Node* prevY = nullptr, * currY = *head;
     while (currY && currY->data != y) {
         prevY = currY;
@@ -30,15 +27,11 @@ void swapNodes(Node** head, int x, int y) {
         cout << "Узлы не найдены!" << endl;
         return;
     }
-
-    // Обновление указателей
     if (prevX) prevX->next = currY;
     else *head = currY;
 
     if (prevY) prevY->next = currX;
     else *head = currX;
-
-    // Обмен next-указателей
     Node* temp = currY->next;
     currY->next = currX->next;
     currX->next = temp;
@@ -47,16 +40,12 @@ void swapNodes(Node** head, int x, int y) {
 int main() {
     srand(time(0));
     const int SIZE = 10;
-
-    // Создание списка
     Node* list = new Node{ rand() % 100, nullptr };
     Node* current = list;
     for (int i = 1; i < SIZE; ++i) {
         current->next = new Node{ rand() % 100, nullptr };
         current = current->next;
     }
-
-    // Вывод исходного списка
     cout << "Исходный список: ";
     current = list;
     while (current) {
@@ -64,12 +53,9 @@ int main() {
         current = current->next;
     }
     cout << endl;
-
-    // Обмен узлов
     cout << "Попытка обмена 5 и 9: ";
     swapNodes(&list, 5, 9);
 
-    // Вывод после обмена
     current = list;
     while (current) {
         cout << current->data << " ";
@@ -77,13 +63,11 @@ int main() {
     }
     cout << endl;
 
-    // Обмен первого и последнего
     Node* last = list;
     while (last->next) last = last->next;
     cout << "Обмен первого и последнего: ";
     swapNodes(&list, list->data, last->data);
 
-    // Вывод после обмена
     current = list;
     while (current) {
         cout << current->data << " ";
@@ -91,7 +75,6 @@ int main() {
     }
     cout << endl;
 
-    // Удаление списка (замена функции deleteList)
     current = list;
     while (current) {
         Node* temp = current;
