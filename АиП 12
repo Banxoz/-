@@ -1,0 +1,46 @@
+#include <iostream>
+
+// Структура узла дерева
+struct Node {
+    int data;
+    Node* left;
+    Node* right;
+    Node(int value) : data(value), left(0), right(0) {}
+};
+// Функция для добавления элемента в дерево
+Node* insert(Node* root, int value) {
+    // Если дерево пустое, создаем новый узел и делаем его корнем
+    if (root == 0) {
+        return new Node(value);
+    }
+    // Если значение меньше, чем значение текущего узла, рекурсивно вставляем его в левое поддерево
+    if (value < root->data) {
+        root->left = insert(root->left, value);
+    }
+    // Если значение больше или равно, чем значение текущего узла, рекурсивно вставляем его в правое поддерево
+    else {
+        root->right = insert(root->right, value);
+    }
+    return root;
+}
+// Функция для вычисления суммы всех элементов в дереве
+int sum(Node* root) {
+    if (root == 0) {
+        return 0;
+    }
+    return root->data + sum(root->left) + sum(root->right);
+}
+int main() {
+    Node* root = 0;
+    root = insert(root, 10);
+    root = insert(root, 5);
+    root = insert(root, 15);
+    root = insert(root, 3);
+    root = insert(root, 7);
+    root = insert(root, 12);
+    root = insert(root, 18);
+
+    std::cout << "Sum: " << sum(root) << std::endl;
+
+    return 0;
+}
