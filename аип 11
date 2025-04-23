@@ -1,0 +1,93 @@
+#include <iostream>
+#include <Windows.h> 
+using namespace std;
+
+const int MAX_SIZE = 100;
+
+struct Stack {
+    int top = -1; 
+    int elements[MAX_SIZE];
+};
+
+// Проверка на пустоту стека
+bool isEmpty(Stack* stk) {
+    return stk->top == -1;
+}
+
+// Добавление элемента в стек
+void push(Stack* stk, int value) {
+    if (stk->top < MAX_SIZE - 1) {
+        stk->elements[++stk->top] = value;
+    }
+    else {
+        cout << "Стек полон, невозможно добавить элемент!" << endl;
+    }
+}
+
+// Удаление элемента из стека
+int pop(Stack* stk) {
+    if (!isEmpty(stk)) {
+        return stk->elements[stk->top--];
+    }
+    else {
+        cout << "Стек пуст, невозможно удалить элемент!" << endl;
+        return -1;
+    }
+}
+
+// Проверка наличия элемента в стеке
+bool contains(Stack* stk, int value) {
+    for (int i = 0; i <= stk->top; i++) {
+        if (stk->elements[i] == value) {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Удаление дубликатов с использованием стека
+static void removeDuplicates(int arr[], int& size) {
+    Stack stk;  // Автоматически инициализируется top = -1
+    Stack temp; // Автоматически инициализируется top = -1
+
+    // Первый проход - заполняем стек в обратном порядке
+    for (int i = size - 1; i >= 0; i--) {
+        if (!contains(&stk, arr[i])) {
+            push(&stk, arr[i]);
+        }
+    }
+
+    // Второй проход - переворачиваем стек, чтобы восстановить порядок
+    while (!isEmpty(&stk)) {
+        push(&temp, pop(&stk));
+    }
+
+    // Записываем результат обратно в массив
+    size = 0;
+    while (!isEmpty(&temp)) {
+        arr[size++] = pop(&temp);
+    }
+}
+
+int main() {
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    int arr[] = { 1, 2, 3, 2, 4, 1, 5, 4, 6 };
+    int size = sizeof(arr) / sizeof(arr[0]);
+
+    cout << "Исходный массив: ";
+    for (int i = 0; i < size; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    removeDuplicates(arr, size);
+
+    cout << "Массив без дубликатов: ";
+    for (int i = 0; i < size; i++) {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
