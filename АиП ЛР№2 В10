@@ -1,73 +1,133 @@
-#include <random>
 #include <iostream>
-#include <Windows.h>
+
 using namespace std;
-int main()
+
+struct list
 {
-    SetConsoleCP(1251);
-    SetConsoleOutputCP(1251);
-    const int nemei = 10;
-    int A[nemei];
-    int B[nemei];
-    int C[nemei];
-    int mass[nemei];
-    cout << "Cлучайный массив: " << endl;
-    // генератор случайных чисел
-    random_device rd;
-    mt19937 gen(rd());
-    uniform_int_distribution<> dis(1, 100);
+    int field; // поле данных
+    struct list* next; // указатель на следующий элемент
+    struct list* prev; // указатель на предыдущий элемент
+};
 
-    // Заполнение mass
-    for (int i = 0; i < nemei; ++i) {
-        mass[i] = dis(gen);
-        cout << mass[i] << " ";
-    }
-    cout << endl;
-    for (int i = 0; i < nemei; ++i) {
-        A[i] = mass[i];
-        B[i] = mass[i];
-        C[i] = mass[i];
-    }
-    //Задание А
-    for (int j = 0; j < nemei / 2; ++j) {
-        int temp = A[j];
-        A[j] = A[nemei / 2 + j];
-        A[nemei / 2 + j] = temp;
-    }
-    //Задание Б
-    for (int i = 0; i < nemei; i += 2) {
-        int temp = B[i];
-        B[i] = B[i + 1];
-        B[i + 1] = temp;
-    }
-    //Задание С
-    for (int i = 0; i < nemei / 2; ++i) {
-        int temp = C[i];
-        C[i] = C[nemei - 1 - i];
-        C[nemei - 1 - i] = temp;
-    }
-    cout << "Массив A: ";
-    for (int g = 0; g < nemei; g++) {
-        cout << A[g] << " ";
-    }
-    cout << endl;
+// Функция для создания нового узла
+struct list* createNode(int value) {
+    struct list* newNode = new list;
+    newNode->field = value;
+    newNode->next = nullptr;
+    newNode->prev = nullptr;
+    return newNode;
+}
 
-    cout << "Массив B: ";
-    for (int g = 0; g < nemei; g++) {
-        cout << B[g] << " ";
+// Функция для добавления узла в конец списка
+void append(struct list** head, int value) {
+    struct list* newNode = createNode(value);
+    if (*head == nullptr) {
+        *head = newNode;
+        return;
     }
-    cout << endl;
+    struct list* last = *head;
+    while (last->next != nullptr) {
+        last = last->next;
+    }
+    last->next = newNode;
+    newNode->prev = last;
+}
 
-    cout << "Массив C: ";
-    for (int g = 0; g < nemei; g++) {
-        cout << C[g] << " ";
+// Функция для вывода списка
+void printList(struct list* head) {
+    struct list* current = head;
+    while (current != nullptr) {
+        cout << current->field << " ";
+        current = current->next;
     }
     cout << endl;
-    cout << "Повторный вывод массива mass: ";
-    for (int g = 0; g < nemei; g++) {
-        cout << mass[g] << " ";
+}
+
+// Функция для обмена двух узлов
+struct list* swap(struct list* lst1, struct list* lst2, struct list* head) {
+    if (lst1 == lst2) return head;
+
+    struct list* prev1, * prev2, * next1, * next2;
+    prev1 = lst1->prev; // узел предшествующий lst1
+    prev2 = lst2->prev; // узел предшествующий lst2
+    next1 = lst1->next; // узел следующий за lst1
+    next2 = lst2->next; // узел следующий за lst2
+
+    if (lst2 == next1) { // обмениваются соседние узлы
+        lst2->next = lst1;
+        lst2->prev = prev1;
+        lst1->next = next2;
+        lst1->prev = lst2;
+
+        if (next2 != nullptr)
+            next2->prev = lst1;
+        if (prev1 != nullptr)
+            prev1->next = lst2;
     }
-    cout << endl;
+    else if (lst1 == next2) { // обмениваются соседние узлы (обратный порядок)
+        lst1->next = lst2;
+        lst1->prev = prev2;
+        lst2->next = next1;
+        lst2->prev = lst1;
+
+        if (next1 != nullptr)
+            next1->prev = lst2;
+        if (prev2 != nullptr)
+            prev2->next = lst1;
+    }
+    else { // обмениваются несоседние узлы
+        lst1->next = next2;
+        if (next2 != nullptr)
+            next2->prev = lst1;
+        lst2->next = next1;
+        if (next1 != nullptr)
+            next1->prev = lst2;
+
+        lst1->prev = prev2;
+        if (prev2 != nullptr)
+            prev2->next = lst1;
+        lst2->prev = prev1;
+        if (prev1 != nullptr)
+            prev1->next = lst2;
+    }
+
+    // Возвращаем новый head, если один из узлов был head
+    if (lst1 == head)
+        return lst2;
+    else if (lst2 == head)
+        return lst1;
+    else
+        return head;
+}
+
+int main() {
+    struct list* head = nullptr;
+
+    // Создаем список с 5 элементами (1, 2, 3, 4, 5)
+    for (int i = 1; i <= 5; i++) {
+        append(&head, i);
+    }
+
+    cout << " Original list: ";
+    printList(head);
+
+    // Находим узлы для обмена (например, 2 и 4)
+    struct list* node2 = head->next;
+    struct list* node4 = head->next->next->next;
+
+    cout << " Exchanging nodes " << node2->field << " and " << node4->field << endl;
+
+    head = swap(node2, node4, head);
+
+    cout << " The list after the exchange: ";
+    printList(head);
+
+    // Освобождаем память
+    while (head != nullptr) {
+        struct list* temp = head;
+        head = head->next;
+        delete temp;
+    }
+
     return 0;
-
 }
