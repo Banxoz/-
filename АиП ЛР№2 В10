@@ -1,5 +1,4 @@
 #include <iostream>
-
 using namespace std;
 
 struct list
@@ -10,23 +9,23 @@ struct list
 };
 
 // Функция для создания нового узла
-struct list* createNode(int value) {
+struct list* create(int value) {
     struct list* newNode = new list;
     newNode->field = value;
-    newNode->next = nullptr;
-    newNode->prev = nullptr;
+    newNode->next = 0;
+    newNode->prev = 0;
     return newNode;
 }
 
 // Функция для добавления узла в конец списка
 void append(struct list** head, int value) {
-    struct list* newNode = createNode(value);
-    if (*head == nullptr) {
+    struct list* newNode = create(value);
+    if (*head == 0) {
         *head = newNode;
         return;
     }
     struct list* last = *head;
-    while (last->next != nullptr) {
+    while (last->next != 0) {
         last = last->next;
     }
     last->next = newNode;
@@ -34,9 +33,9 @@ void append(struct list** head, int value) {
 }
 
 // Функция для вывода списка
-void printList(struct list* head) {
+void print(struct list* head) {
     struct list* current = head;
-    while (current != nullptr) {
+    while (current != 0) {
         cout << current->field << " ";
         current = current->next;
     }
@@ -59,9 +58,9 @@ struct list* swap(struct list* lst1, struct list* lst2, struct list* head) {
         lst1->next = next2;
         lst1->prev = lst2;
 
-        if (next2 != nullptr)
+        if (next2 != 0)
             next2->prev = lst1;
-        if (prev1 != nullptr)
+        if (prev1 != 0)
             prev1->next = lst2;
     }
     else if (lst1 == next2) { // обмениваются соседние узлы (обратный порядок)
@@ -70,24 +69,24 @@ struct list* swap(struct list* lst1, struct list* lst2, struct list* head) {
         lst2->next = next1;
         lst2->prev = lst1;
 
-        if (next1 != nullptr)
+        if (next1 != 0)
             next1->prev = lst2;
-        if (prev2 != nullptr)
+        if (prev2 != 0)
             prev2->next = lst1;
     }
     else { // обмениваются несоседние узлы
         lst1->next = next2;
-        if (next2 != nullptr)
+        if (next2 != 0)
             next2->prev = lst1;
         lst2->next = next1;
-        if (next1 != nullptr)
+        if (next1 != 0)
             next1->prev = lst2;
 
         lst1->prev = prev2;
-        if (prev2 != nullptr)
+        if (prev2 != 0)
             prev2->next = lst1;
         lst2->prev = prev1;
-        if (prev1 != nullptr)
+        if (prev1 != 0)
             prev1->next = lst2;
     }
 
@@ -101,7 +100,8 @@ struct list* swap(struct list* lst1, struct list* lst2, struct list* head) {
 }
 
 int main() {
-    struct list* head = nullptr;
+
+    struct list* head = 0;
 
     // Создаем список с 5 элементами (1, 2, 3, 4, 5)
     for (int i = 1; i <= 5; i++) {
@@ -109,21 +109,21 @@ int main() {
     }
 
     cout << " Original list: ";
-    printList(head);
+    print(head);
 
-    // Находим узлы для обмена (например, 2 и 4)
-    struct list* node2 = head->next;
-    struct list* node4 = head->next->next->next;
+    // Yзлы для обмена 
+    struct list* nemei = head->next;
+    struct list* nemeii = head->next->next->next;
 
-    cout << " Exchanging nodes " << node2->field << " and " << node4->field << endl;
+    cout << " Exchanging nodes " << nemei->field << " and " << nemeii->field << endl;
 
-    head = swap(node2, node4, head);
+    head = swap(nemei, nemeii, head);
 
     cout << " The list after the exchange: ";
-    printList(head);
+    print(head);
 
-    // Освобождаем память
-    while (head != nullptr) {
+    // Освобождение памяти
+    while (head != 0) {
         struct list* temp = head;
         head = head->next;
         delete temp;
