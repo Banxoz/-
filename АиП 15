@@ -1,0 +1,112 @@
+//Рекурсия
+#include <iostream>
+#include <ctime>
+#include <Windows.h> 
+using namespace std;
+
+// Структура узла бинарного дерева
+struct TreeNode {
+    int data;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int val) : data(val), left(nullptr), right(nullptr) {}
+};
+
+// Рекурсивная функция для подсчета листьев
+int nemei(TreeNode* root) {
+    if (root == nullptr) {
+        return 0;
+    }
+    if (root->left == nullptr && root->right == nullptr) {
+        return 1;
+    }
+    return nemei(root->left) + nemei(root->right);
+}
+
+int main() {
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    clock_t start = clock();
+    // Создаем бинарное дерево для тестирования
+    TreeNode* root = new TreeNode(10);
+    root->left = new TreeNode(5);
+    root->right = new TreeNode(15);
+    root->left->left = new TreeNode(3);
+    root->left->right = new TreeNode(7);
+    root->right->left = new TreeNode(12);
+    root->right->left = new TreeNode(18);
+
+    
+    int leavesCount = nemei(root);
+    clock_t end = clock();
+
+    double elapsed_time = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+    cout << "Количество листьев (рекурсия): " << leavesCount << endl;
+    cout << "Время выполнения: " << elapsed_time << " секунд" << endl;
+
+    return 0;
+}
+//Итерация
+#include <iostream>
+#include <ctime>
+#include <stack>
+#include <Windows.h> 
+using namespace std;
+
+// Структура узла бинарного дерева
+struct TreeNode {
+    int data;
+    TreeNode* left;
+    TreeNode* right;
+    TreeNode(int val) : data(val), left(nullptr), right(nullptr) {}
+};
+
+// Итеративная функция для подсчета листьев
+int nemei(TreeNode* root) {
+    if (root == nullptr) {
+        return 0;
+    }
+
+    stack<TreeNode*> s;
+    s.push(root);
+    int count = 0;
+
+    while (!s.empty()) {
+        TreeNode* current = s.top();
+        s.pop();
+
+        if (current->left == nullptr && current->right == nullptr) {
+            count++;
+        }
+
+        if (current->right != nullptr) {
+            s.push(current->right);
+        }
+        if (current->left != nullptr) {
+            s.push(current->left);
+        }
+    }
+
+    return count;
+}
+
+int main() {
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    clock_t start = clock();
+    // Создаем бинарное дерево для тестирования
+    TreeNode* root = new TreeNode(10);
+    root->left = new TreeNode(5);
+    root->right = new TreeNode(15);
+    root->left->left = new TreeNode(3);
+    root->left->right = new TreeNode(7);
+    root->right->left = new TreeNode(12);
+    root->right->left = new TreeNode(18);
+    int leaves = nemei(root);
+    clock_t end = clock();
+
+    double elapsed_time = static_cast<double>(end - start) / CLOCKS_PER_SEC;
+    cout << "Количество листьев (итерация): " << leaves << endl;
+    cout << "Время выполнения: " << elapsed_time << " секунд" << endl;
+    return 0;
+}
