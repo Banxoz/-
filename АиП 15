@@ -1,19 +1,37 @@
 #include <iostream>
 #include <ctime>
 #include <stack>
-
+#include <random>
+#include <Windows.h>
 using namespace std;
 
 // Структура узла бинарного дерева
-struct TreeNode {
+struct Tree {
     int val;
-    TreeNode* left;
-    TreeNode* right;
-    TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+    Tree* left;
+    Tree* right;
+    Tree(int x) : val(x), left(0), right(0) {}
+
 };
+// Функция для добавления элемента в дерево
+Tree* insert(Tree* root, int value) {
+    // Если дерево пустое, создаем новый узел и делаем его корнем
+    if (root == 0) {
+        return new Tree(value);
+    }
+    // Если значение меньше, чем значение текущего узла, рекурсивно вставляем его в левое поддерево
+    if (value < root->val) {
+        root->left = insert(root->left, value);
+    }
+    // Если значение больше или равно, чем значение текущего узла, рекурсивно вставляем его в правое поддерево
+    else {
+        root->right = insert(root->right, value);
+    }
+    return root;
+}
 
 // Рекурсивная функция для подсчёта листьев
-int Recurs(TreeNode* root) {
+int Recurs(Tree* root) {
     if (root == nullptr) {
         return 0;
     }
@@ -23,18 +41,18 @@ int Recurs(TreeNode* root) {
     return Recurs(root->left) + Recurs(root->right);
 }
 
-// Итеративная функция для подсчёта листьев (с использованием стека)
-int Iterat(TreeNode* root) {
+// Итеративная функция для подсчёта листьев
+int Iterat(Tree* root) {
     if (root == nullptr) {
         return 0;
     }
 
-    stack<TreeNode*> s;
+    stack<Tree*> s;
     s.push(root);
     int count = 0;
 
     while (!s.empty()) {
-        TreeNode* node = s.top();
+        Tree* node = s.top();
         s.pop();
 
         if (node->left == nullptr && node->right == nullptr) {
@@ -53,24 +71,20 @@ int Iterat(TreeNode* root) {
 }
 
 int main() {
-    TreeNode* root = new TreeNode(1);
-    root->left = new TreeNode(2);
-    root->right = new TreeNode(3);
-    root->left->left = new TreeNode(4);
-    root->left->right = new TreeNode(5);
-    root->right->left = new TreeNode(6);
-    root->right->right = new TreeNode(7);
-    root->left->left->left = new TreeNode(8);
-    root->left->left->right = new TreeNode(9);
-    root->left->right->left = new TreeNode(10);       
-    root->left->right->right = new TreeNode(11);      
-    root->right->left->left = new TreeNode(12);       
-    root->right->left->right = new TreeNode(13);      
-    root->right->right->left = new TreeNode(14);      
-    root->right->right->right = new TreeNode(15);     
-    root->left->left->left->left = new TreeNode(16);  
-    root->left->left->left->right = new TreeNode(17); 
+    SetConsoleCP(1251);
+    SetConsoleOutputCP(1251);
+    //Генератор случайных чисел
+    random_device rd;
+    mt19937 gen(rd());
+    uniform_int_distribution<> dis(1, 100); 
 
+    cout << "Введите количество элементов в бинарном дереве: ";
+    int j; cin >> j;
+
+    Tree* root = 0;
+    for (int i = 1; i < j; i++) {
+        root = insert(root, dis(gen));
+    }
 
     //  время  рекурсивной функции
     clock_t start_rec = clock();
