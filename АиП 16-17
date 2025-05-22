@@ -4,32 +4,71 @@ template <typename T, int N>
 void nemei(T(&matrix)[N][N]) {
     for (int i = 0; i < N; ++i) {
         for (int j = i + 1; j < N; ++j) {
-            
+
             swap(matrix[i][j], matrix[j][i]);
         }
     }
 }
 
 int main() {
-    
+
     int matrix[3][3] = {
         {1, 2, 3},
         {4, 5, 6},
         {7, 8, 9}
     };
-    cout << "Original : "<<endl;
+    float matric[3][3] = {
+    {1.2, 2.2, 3.9},
+    {4.3, 5.5, 6.8},
+    {7.8, 8.1, 9.9}
+    };
+    char matriy[3][3] = {
+    {'a', 'd', 'g'},
+    {'b', 'e', 'h'},
+    {'c', 'f', 'i'}
+    };
+    cout << "Original : " << endl;
     for (size_t i = 0; i < 3; ++i) {
         for (size_t j = 0; j < 3; ++j) {
             cout << matrix[i][j] << " ";
         }
         cout << endl;
     }
+    cout << "Original : " << endl;
+    for (size_t i = 0; i < 3; ++i) {
+        for (size_t j = 0; j < 3; ++j) {
+            cout << matric[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << "Original : " << endl;
+    for (size_t i = 0; i < 3; ++i) {
+        for (size_t j = 0; j < 3; ++j) {
+            cout << matriy[i][j] << " ";
+        }
+        cout << endl;
+    }
     nemei(matrix);
+    nemei(matric);
+    nemei(matriy);
 
-    cout << "Transposed : "<<endl;
+    cout << "Transposed : " << endl;
     for (size_t i = 0; i < 3; ++i) {
         for (size_t j = 0; j < 3; ++j) {
             cout << matrix[i][j] << " ";
+        }
+        cout << endl;
+    }
+    cout << "Transposed : " << endl;
+    for (size_t i = 0; i < 3; ++i) {
+        for (size_t j = 0; j < 3; ++j) {
+            cout << matric[i][j] << " ";
+        }
+        cout << endl;
+    } cout << "Transposed : " << endl;
+    for (size_t i = 0; i < 3; ++i) {
+        for (size_t j = 0; j < 3; ++j) {
+            cout << matriy[i][j] << " ";
         }
         cout << endl;
     }
