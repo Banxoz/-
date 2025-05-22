@@ -10,13 +10,17 @@ struct Node {
 };
 
 void swapNodes(Node** head, int x, int y) {
-    if (x == y) return;
+    if (x == y) {
+        cout << "Узлы одинаковые, обмен не требуется." << endl;
+        return;
+    }
 
     Node* prevX = nullptr, * currX = *head;
     while (currX && currX->data != x) {
         prevX = currX;
         currX = currX->next;
     }
+
     Node* prevY = nullptr, * currY = *head;
     while (currY && currY->data != y) {
         prevY = currY;
@@ -24,57 +28,52 @@ void swapNodes(Node** head, int x, int y) {
     }
 
     if (!currX || !currY) {
-        cout << "Узлы не найдены!" << endl;
+        cout << "Один или оба узла не найдены в списке!" << endl;
         return;
     }
+
     if (prevX) prevX->next = currY;
     else *head = currY;
 
     if (prevY) prevY->next = currX;
     else *head = currX;
+
     Node* temp = currY->next;
     currY->next = currX->next;
     currX->next = temp;
 }
 
+void printList(Node* head) {
+    while (head) {
+        cout << head->data << " ";
+        head = head->next;
+    }
+    cout << endl;
+}
+
 int main() {
     srand(time(0));
     const int SIZE = 10;
+
+    // Создаем список
     Node* list = new Node{ rand() % 100, nullptr };
     Node* current = list;
     for (int i = 1; i < SIZE; ++i) {
         current->next = new Node{ rand() % 100, nullptr };
         current = current->next;
     }
-    cout << "Исходный список: ";
-    current = list;
-    while (current) {
-        cout << current->data << " ";
-        current = current->next;
-    }
-    cout << endl;
-    cout << "Попытка обмена 5 и 9: ";
-    swapNodes(&list, 5, 9);
 
-    current = list;
-    while (current) {
-        cout << current->data << " ";
-        current = current->next;
-    }
-    cout << endl;
+    printList(list,);
+  
+    // Пользовательский ввод для выбора узлов
+    int x, y;
+    cout << "Insert X and Y: ";
+    cin >> x >> y;
+    // Меняем узлы местами
+    swapNodes(&list, x, y);
+    printList(list, "List after swap");
 
-    Node* last = list;
-    while (last->next) last = last->next;
-    cout << "Обмен первого и последнего: ";
-    swapNodes(&list, list->data, last->data);
-
-    current = list;
-    while (current) {
-        cout << current->data << " ";
-        current = current->next;
-    }
-    cout << endl;
-
+    // Очищаем память
     current = list;
     while (current) {
         Node* temp = current;
